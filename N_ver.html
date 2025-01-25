@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 강릉 여행</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans', sans-serif;
+        }
+        #map {
+            width: 100%;
+            height: 100vh;
+            margin-top: 50px;
+        }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .header-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .header-buttons button {
+            width: 120px;
+            height: 40px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.8);
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: height 0.5s ease-in-out, background 0.5s ease-in-out;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        .footer.expanded {
+            height: 100%;
+            background: #ffffff;
+        }
+        .footer-content {
+            text-align: center;
+            width: 100%;
+            padding: 20px;
+        }
+        .footer-content.hidden {
+            display: none;
+        }
+        .footer.expanded .footer-content.hidden {
+            display: table;
+        }
+        .footer.expanded h3 {
+            display: none;
+        }
+        .footer-content table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .footer-content table th,
+        .footer-content table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .footer-content table th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        .menu-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 0, 255, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        .menu-icon div {
+            width: 30px;
+            height: 4px;
+            background: white;
+            margin: 3px 0;
+        }
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black url('https://darkened-rosehip-49c.notion.site/image/attachment%3Ae59206ca-550d-43b6-a49e-18969445d93b%3AUntitled-2.png?table=block&id=1862e2b8-7b0a-8029-b5aa-c836589304f5&spaceId=698662e5-a61b-42d6-b488-4822ae733003&width=2000&userId=&cache=v2') center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            z-index: 2000;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+        #intro.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=g0fjfs1g5y"></script>
+</head>
+<body>
+    <div id="intro">2025 강릉 여행</div>
+    <header>
+        <div>2025 강릉 여행</div>
+        <div class="header-buttons">
+            <button id="day1-plan">1일차 계획</button>
+            <button id="day2-plan">2일차 계획</button>
+        </div>
+    </header>
+    <div id="map"></div>
+    <div class="footer">
+        <h3>2025 강릉 여행 계획</h3>
+        <div class="footer-content hidden">
+            <table>
+                <thead>
+                    <tr>
+                        <th>일차</th>
+                        <th>시간</th>
+                        <th>계획</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1일차</td>
+                        <td>13:00</td>
+                        <td>KTX 서울역 출발</td>
+                        <td>3시 체크인</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>14:55</td>
+                        <td>KTX 강릉역 도착</td>
+                        <td>배니닭강정</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>15:20</td>
+                        <td>상상초당 체크인</td>
+                        <td>오징어순대나라</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>15:40</td>
+                        <td>강릉 중앙시장</td>
+                        <td>모자호떡</td>
+                    </tr>
+                    <tr>
+                        <td>2일차</td>
+                        <td>11:00</td>
+                        <td>상상초당 체크아웃</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>15:00</td>
+                        <td>서와정 체크인</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>3일차</td>
+                        <td>11:00</td>
+                        <td>서와정 체크아웃</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>17:25</td>
+                        <td>KTX 강릉역 출발</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>19:30</td>
+                        <td>KTX 서울역 도착</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="menu-icon" onclick="toggleFooter()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <script>
+        // 네이버 지도 초기화
+        const mapOptions = {
+            center: new naver.maps.LatLng(37.751853, 128.876057),
+            zoom: 11
+        };
+        const map = new naver.maps.Map('map', mapOptions);
+
+        const locations = [
+            { name: "상상초당펜션 (1일차)", coords: [37.761327, 128.948118], link: "https://map.naver.com/v5/search/상상초당펜션" },
+            { name: "서와정 (2일차)", coords: [37.758887, 128.879899], link: "https://map.naver.com/v5/search/서와정" },
+            { name: "얼라이브홈", coords: [37.751853, 128.878557], link: "https://map.naver.com/v5/search/얼라이브홈" },
+            { name: "소돌막국수", coords: [37.894786, 128.826338], link: "https://map.naver.com/v5/search/소돌막국수" },
+            { name: "동화가든 본점", coords: [37.760775, 128.896502], link: "https://map.naver.com/v5/search/동화가든%20본점" },
+            { name: "강릉 중앙시장", coords: [37.753174, 128.899048], link: "https://map.naver.com/v5/search/강릉%20중앙시장" },
+            { name: "주문진수산시장", coords: [37.892160, 128.821251], link: "https://map.naver.com/v5/search/주문진수산시장" },
+            { name: "장안횟집 (우럭미역국)", coords: [37.760871, 128.895432], link: "https://map.naver.com/v5/search/장안횟집" },
+            { name: "버드나무 브루어리", coords: [37.751041, 128.876114], link: "https://map.naver.com/v5/search/버드나무%20브루어리" },
+            { name: "강릉역 (KTX)", coords: [37.764275, 128.896575], link: "https://map.naver.com/v5/search/강릉역" }
+        ];
+
+        // 경로와 넘버링 마커 표시
+        let routeCoordinatesDay1 = [
+            locations[9].coords,
+            locations[0].coords,
+            locations[5].coords,
+            locations[2].coords,
+            locations[7].coords
+        ];
+
+        let routeCoordinatesDay2 = [
+            locations[5].coords,
+            locations[7].coords,
+            locations[2].coords,
+            locations[9].coords,
+            locations[0].coords
+        ];
+
+        // 1일차 루트 버튼 클릭 시 넘버링 표시/숨기기
+        document.getElementById('day1-plan').addEventListener('click', () => {
+            let markerIndex = 1;
+            const polylineDay1 = new naver.maps.Polyline({
+                path: routeCoordinatesDay1.map(coord => new naver.maps.LatLng(coord[0], coord[1])),
+                strokeColor: "#FF0000",
+                strokeWeight: 4
+            });
+            polylineDay1.setMap(map);
+
+            // 마커 넘버링
+            routeCoordinatesDay1.forEach(coords => {
+                const marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(coords[0], coords[1]),
+                    map: map
+                });
+                const infoWindow = new naver.maps.InfoWindow({
+                    content: `<div>${markerIndex}</div>`
+                });
+                infoWindow.open(map, marker);
+                markerIndex++;
+            });
+        });
+
+        // 2일차 루트 버튼 클릭 시 넘버링 표시/숨기기
+        document.getElementById('day2-plan').addEventListener('click', () => {
+            let markerIndex = 1;
+            const polylineDay2 = new naver.maps.Polyline({
+                path: routeCoordinatesDay2.map(coord => new naver.maps.LatLng(coord[0], coord[1])),
+                strokeColor: "#0000FF",
+                strokeWeight: 4
+            });
+            polylineDay2.setMap(map);
+
+            // 마커 넘버링
+            routeCoordinatesDay2.forEach(coords => {
+                const marker = new naver.maps.Marker({
+                    position: new naver.maps.LatLng(coords[0], coords[1]),
+                    map: map
+                });
+                const infoWindow = new naver.maps.InfoWindow({
+                    content: `<div>${markerIndex}</div>`
+                });
+                infoWindow.open(map, marker);
+                markerIndex++;
+            });
+        });
+
+        // Footer toggle logic
+        function toggleFooter() {
+            const footer = document.querySelector('.footer');
+            footer.classList.toggle('expanded');
+        }
+
+        // Intro logic
+        const intro = document.getElementById('intro');
+        setTimeout(() => {
+            intro.classList.add('hidden');
+        }, 4000);
+    </script>
+</body>
+</html>
